@@ -21,12 +21,24 @@ router.get('/registros', async(req, res) => {
         lista.push(
             {
                 id: e.dataValues.id,
-                numeros: e.dataValues.numero,
-                operador: FormatearOperador(e.dataValues.operador)
+                numero: e.dataValues.numero,
+                operador: FormatearOperador(e.dataValues.operador),
+                fecha_consulta: e.dataValues.fecha_consulta
             }
         )
     })
     res.json(lista);
+})
+
+router.get('/registros/:id', async(req, res) => {
+    const { id } = req.params
+    const query = await Numeros.findOne({where: {numero:id}});
+    if (query != null) {
+        res.json(query.dataValues)
+    }
+    else {
+        res.status(404).json({message: "ESTE REGISTRO NO SE ENCUENTRA DISPONIBLE"})
+    }
 })
 
 export default router
