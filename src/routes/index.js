@@ -7,6 +7,13 @@ router.get('/', (req, res) => {
     res.render('home');
 });
 
+router.get('/count', async(req, res) => {
+    const count = await Numeros.count()
+    res.json({
+        numeros_registrados: count
+    });
+});
+
 router.get('/registros', async(req, res) => {
     const numeros = await Numeros.findAll();
     let lista = []
